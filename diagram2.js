@@ -10,13 +10,11 @@ const seed2 = (sketch) => {
 
     sketch.setup = () => {
         
-        for (let i = 1; i < 20; i++) {
-            frontImages[i] = sketch.loadImage("images/front" + i + ".png")
-            // backImages[i] = sketch.loadImage("images/back" + i + ".png")
-            // leftImages[i] = sketch.loadImage("images/left" + i + ".png")
-            // rightImages[i] = sketch.loadImage("images/right" + i + ".png")
-        }
-
+        for (let i = 1; i < 20; i++) frontImages[i] = sketch.loadImage("images/front" + i + ".png")
+        for (let i = 1; i < 16; i++) backImages[i] = sketch.loadImage("images/back" + i + ".png")
+        for (let i = 1; i < 19; i++) leftImages[i] = sketch.loadImage("images/left" + i + ".png")
+        for (let i = 1; i < 18; i++) rightImages[i] = sketch.loadImage("images/right" + i + ".png")
+        
         sketch.frameRate(5)
 
         sketch.createCanvas(1920, 1080)
@@ -25,22 +23,22 @@ const seed2 = (sketch) => {
         POVs[2] = new POV(0.4*sketch.width, 0.95*sketch.height, povRadius, 'south')
         POVs[3] = new POV(0.05*sketch.width, 0.55*sketch.height, povRadius, 'west')
 
-        sketch.noLoop()
+        // sketch.noLoop()
     }
     
     sketch.draw = () => {
         sketch.background(255)
 
         sketch.image(frontImages[currentImageIndex], 0, 0)
+        sketch.image(backImages[currentImageIndex], 50, 50)
         
         POVs.forEach(POV => {
             POV.display()
         })
+        
         if (currentImageIndex < 19) {
             currentImageIndex++ 
-        } else if (currentImageIndex > 0) {
-            currentImageIndex-- 
-        }
+        } 
     }
 
     class POV {
@@ -50,6 +48,8 @@ const seed2 = (sketch) => {
             this.y = posY
             this.radius = radius
             this.opacity = sketch.random(50, 85)
+            this.pointA = []
+            this.pointB = []
         }
 
         display = () => {
@@ -63,49 +63,27 @@ const seed2 = (sketch) => {
             sketch.fill(225, 225, 225, this.opacity)
             switch (this.name) {
                 case 'north':
-                    sketch.triangle(
-                        this.x, 
-                        this.y, 
-                        this.x - sketch.width * 0.25, 
-                        this.y + sketch.height * 0.75, 
-                        this.x + sketch.width * 0.3, 
-                        this.y + sketch.height * 0.6 
-                    )
+                    this.pointA.push(this.x - sketch.width * 0.25, this.y + sketch.height * 0.75)
+                    this.pointB.push(this.x + sketch.width * 0.3, this.y + sketch.height * 0.6 )
                     break
                 
-                case 'east': 
-                    sketch.triangle(
-                        this.x, 
-                        this.y, 
-                        this.x - sketch.width * 0.65, 
-                        this.y - sketch.height * 0.35, 
-                        this.x - sketch.width * 0.75, 
-                        this.y + sketch.height * 0.15
-                    )
+                case 'east':
+                    this.pointA.push(this.x - sketch.width * 0.65, this.y - sketch.height * 0.35)
+                    this.pointB.push(this.x - sketch.width * 0.75, this.y + sketch.height * 0.15)
                     break
                 
                 case 'south':
-                    sketch.triangle(
-                        this.x, 
-                        this.y, 
-                        this.x + sketch.width * 0.15, 
-                        this.y - sketch.height * 0.95, 
-                        this.x + sketch.width * 0.45, 
-                        this.y - sketch.height * 0.4
-                    )
+                    this.pointA.push(this.x + sketch.width * 0.15, this.y - sketch.height * 0.95)
+                    this.pointB.push(this.x + sketch.width * 0.45, this.y - sketch.height * 0.4)
                     break
                 
                 case 'west':
-                    sketch.triangle(
-                        this.x,
-                        this.y, 
-                        this.x + sketch.width * 0.75, 
-                        this.y - sketch.height * 0.35, 
-                        this.x + sketch.width * 0.80,  
-                        this.y - sketch.height * 0.15
-                    )
+                    this.pointA.push(this.x + sketch.width * 0.75, this.y - sketch.height * 0.35)
+                    this.pointB.push(this.x + sketch.width * 0.80, this.y - sketch.height * 0.15)
                     break
             }
+
+            sketch.triangle(this.x, this.y, this.pointA[0], this.pointA[1], this.pointB[0], this.pointB[1])
           
         }
 

@@ -1,4 +1,5 @@
-// variable declarations 
+// seed 1 idea coming from https://github.com/processing/p5.js/wiki/Global-and-instance-mode
+
 const seed1 = (sketch) => {
     
     let halfWindow = {
