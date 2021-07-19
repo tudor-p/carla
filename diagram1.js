@@ -78,11 +78,11 @@ const seed1 = (sketch) => {
             this.opacity = 0
         }
     
-        display = function () {
+        display = () => {
             sketch.rect(this.x, this.y, this.width, this.height)
         }
         
-        move = function () {
+        move = () => {
             if (sketch.mouseX > 400 && sketch.mouseX < 800 && sketch.mouseY > 0 && sketch.mouseY < 750) {
     
                 if (this.x < halfWindow.width + 10 || this.x > sketch.width - this.width) {

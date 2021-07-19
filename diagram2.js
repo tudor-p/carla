@@ -17,7 +17,8 @@ const seed2 = (sketch) => {
 
         sketch.frameRate(5)
 
-        sketch.createCanvas(sketch.displayWidth, 1080)
+        sketch.createCanvas(sketch.displayWidth * 0.5, sketch.displayHeight * 0.5)
+
         POVs[0] = new POV(0.5*sketch.width, 0.05*sketch.height, povRadius, 'north', backImages)
         POVs[1] = new POV(0.95*sketch.width, 0.6*sketch.height, povRadius, 'east', rightImages)
         POVs[2] = new POV(0.4*sketch.width, 0.95*sketch.height, povRadius, 'south', frontImages)
@@ -47,6 +48,7 @@ const seed2 = (sketch) => {
             this.pointB = []
             this.currentImageIndex = 1
             this.imageArray = imageArray
+            this.resizeFactor = 0.5
         }
 
         display = () => {
@@ -87,7 +89,8 @@ const seed2 = (sketch) => {
         onClick = () => {
             let distance = sketch.dist(sketch.mouseX, sketch.mouseY, this.x, this.y)
             
-            sketch.image(this.imageArray[this.currentImageIndex], 0, 0)
+            sketch.imageMode(sketch.CENTER)
+            sketch.image(this.imageArray[this.currentImageIndex], sketch.width / 2, sketch.height / 2, 1920 * this.resizeFactor, 1080 * this.resizeFactor)
 
             if (distance < povRadius / 2) {
                 
