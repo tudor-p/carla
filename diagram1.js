@@ -2,15 +2,18 @@
 
 const seed1 = (sketch) => {
     
+    // 
     let halfWindow = {
         x: 5,
         y: 5,
         width: 200,
         height: 385 
     }
+
     
-    let numberOfRectangles = 26
     let rectangles = []
+
+    let numberOfRectangles = 18
     
     sketch.setup = () => {
         sketch.createCanvas(400, 400)
@@ -27,15 +30,16 @@ const seed1 = (sketch) => {
     
     sketch.draw = () => {
     
-        // console.log(halfWindow)
-        // drawing the half window which partitons the canvas
+        // white background 
         sketch.background(245)
-        sketch.rect (halfWindow.x, halfWindow.y, halfWindow.width, halfWindow.height)
+
+        // drawing the half window which partitons the canvas
+        sketch.rect(halfWindow.x, halfWindow.y, halfWindow.width, halfWindow.height)
         
-        rectangles.forEach(rectangle => {
-            rectangle.move()
-            rectangle.display()
-        })
+        for (let i = 0; i < rectangles.length; i++) {
+            rectangles[i].display()
+            rectangles[i].move()
+        }
       
     }
     
@@ -47,10 +51,13 @@ const seed1 = (sketch) => {
             this.height = sketch.random(30, 60)
             this.speed = sketch.random(1, 2)
             this.direction = 1
-            this.opacity = 0
+            this.r = sketch.random(0,255) 
+            this.g = sketch.random(0,255) 
+            this.b = sketch.random(0,255) 
         }
     
         display = function () {
+            sketch.fill(this.r, this.b, this.g)
             sketch.rect(this.x, this.y, this.width, this.height)
         }
         
@@ -62,7 +69,7 @@ const seed1 = (sketch) => {
     
                 if (this.x > halfWindow.width - this.width || this.x < 10) {
                     this.direction *= -1
-                } 
+                }
     
                 this.x = this.x + this.speed*this.direction
             }
