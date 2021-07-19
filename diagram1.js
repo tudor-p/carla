@@ -5,15 +5,15 @@ const seed1 = (sketch) => {
     let halfWindow = {
         x: 5,
         y: 5,
-        width: 400,
-        height: 750 
+        width: 200,
+        height: 385 
     }
     
     let numberOfRectangles = 26
     let rectangles = []
     
     sketch.setup = () => {
-        sketch.createCanvas(800, 800)
+        sketch.createCanvas(400, 400)
         
         for (let i = 0; i < numberOfRectangles/2; i++) {
             rectangles[i] = new LeftRectangle()
@@ -41,10 +41,10 @@ const seed1 = (sketch) => {
     
     class LeftRectangle {
         constructor() {
-            this.x = sketch.random(50, 250)
-            this.y = sketch.random(50, 500)
-            this.width = sketch.random(10, 125)
-            this.height = sketch.random(50, 80)
+            this.x = sketch.random(80, halfWindow.width - 80)
+            this.y = sketch.random(50, halfWindow.height - 60)
+            this.width = sketch.random(10, 75)
+            this.height = sketch.random(30, 60)
             this.speed = sketch.random(1, 2)
             this.direction = 1
             this.opacity = 0
@@ -55,7 +55,10 @@ const seed1 = (sketch) => {
         }
         
         move = function () {
-            if (sketch.mouseX > 0 && sketch.mouseX < 400 && sketch.mouseY > 0 && sketch.mouseY < 750) {
+            if (sketch.mouseX > 0 && 
+                sketch.mouseX < halfWindow.width && 
+                sketch.mouseY > 0 && 
+                sketch.mouseY < sketch.height) {
     
                 if (this.x > halfWindow.width - this.width || this.x < 10) {
                     this.direction *= -1
@@ -69,10 +72,10 @@ const seed1 = (sketch) => {
     
     class RightRectange {
         constructor() {
-            this.x = sketch.random(450, 650)
-            this.y = sketch.random(50, 500)
-            this.width = sketch.random(10, 125)
-            this.height = sketch.random(50, 80)
+            this.x = sketch.random(halfWindow.width + 80, sketch.width - 80)
+            this.y = sketch.random(50, halfWindow.height - 50)
+            this.width = sketch.random(10, 75)
+            this.height = sketch.random(30, 60)
             this.speed = sketch.random(1, 2)
             this.direction = -1
             this.opacity = 0
@@ -83,7 +86,10 @@ const seed1 = (sketch) => {
         }
         
         move = () => {
-            if (sketch.mouseX > 400 && sketch.mouseX < 800 && sketch.mouseY > 0 && sketch.mouseY < 750) {
+            if (sketch.mouseX > halfWindow.width && 
+                sketch.mouseX < sketch.width && 
+                sketch.mouseY > 0 && 
+                sketch.mouseY < sketch.height) {
     
                 if (this.x < halfWindow.width + 10 || this.x > sketch.width - this.width) {
                     this.direction *= -1
